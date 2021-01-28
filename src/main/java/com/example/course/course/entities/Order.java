@@ -1,5 +1,7 @@
 package com.example.course.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -14,6 +16,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd'T'HH:mm:ss'Z'", timezone = "GMT") //estamos aqui formatando o Json
     private Instant moment;
 
     @ManyToOne //são várias orders para um único user
@@ -25,6 +28,7 @@ public class Order implements Serializable {
     public Order(Long id, Instant moment, User client) {
         this.id = id;
         this.moment = moment;
+        this.client = client;
     }
 
     public Long getId() {

@@ -1,5 +1,7 @@
 package com.example.course.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    @JsonIgnore //temos que colocar esse comando, senão um user chama um client, que chama um user, que chama um client...
     @OneToMany(mappedBy = "client")
     List<Order> order = new ArrayList<>();
 
