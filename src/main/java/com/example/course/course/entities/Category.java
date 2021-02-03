@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.nio.MappedByteBuffer;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +21,8 @@ public class Category implements Serializable {
 
     private String name;
 
-    @Transient
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
     public Category(){}
