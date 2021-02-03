@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="tb_category")
@@ -19,9 +20,8 @@ public class Category implements Serializable {
 
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "category")
-    private List<Product> products = new ArrayList<>();
+    @Transient
+    private Set<Product> products = new HashSet<>();
 
     public Category(){}
 
@@ -46,7 +46,7 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 

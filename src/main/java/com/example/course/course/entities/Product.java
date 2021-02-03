@@ -2,7 +2,9 @@ package com.example.course.course.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="tb_product")
@@ -11,33 +13,32 @@ public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String description;
     private String name;
     private Double price;
     private String imgUrl;
 
-    @ManyToOne
-    @JoinColumn(name="category_id")
-    private Category category;
+    @Transient
+    private Set<Category> categories = new HashSet<>();
 
-    public Product(){}
+    public Product() {
+    }
 
-    public Product(long id, String description, String name, Double price, String imgUrl, Category category) {
+    public Product(Long id, String description, String name, Double price, String imgUrl) {
         this.id = id;
         this.description = description;
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;
-        this.category = category;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,12 +74,8 @@ public class Product implements Serializable {
         this.imgUrl = imgUrl;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
     @Override
@@ -86,15 +83,11 @@ public class Product implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return getId() == product.getId() &&
-                Objects.equals(getDescription(), product.getDescription()) &&
-                Objects.equals(getName(), product.getName()) &&
-                Objects.equals(getPrice(), product.getPrice()) &&
-                Objects.equals(getImgUrl(), product.getImgUrl());
+        return getId() == product.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDescription(), getName(), getPrice(), getImgUrl());
+        return Objects.hash(getId());
     }
 }
